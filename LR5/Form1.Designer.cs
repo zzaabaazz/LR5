@@ -41,6 +41,8 @@
             this.label2 = new System.Windows.Forms.Label();
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.button7 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -49,8 +51,9 @@
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Location = new System.Drawing.Point(34, 59);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(571, 150);
+            this.dataGridView1.Size = new System.Drawing.Size(461, 179);
             this.dataGridView1.TabIndex = 0;
+            this.dataGridView1.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_SelectionChahged);
             // 
             // button2
             // 
@@ -60,38 +63,41 @@
             this.button2.TabIndex = 1;
             this.button2.Text = "Обновление";
             this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button1_Click);
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(491, 244);
+            this.button3.Location = new System.Drawing.Point(381, 244);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(114, 23);
             this.button3.TabIndex = 2;
             this.button3.Text = "Добавить запись";
             this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click_1);
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(491, 273);
+            this.button4.Location = new System.Drawing.Point(381, 273);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(114, 23);
             this.button4.TabIndex = 3;
             this.button4.Text = "Сохранить запись";
             this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click_1);
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(491, 302);
+            this.button1.Location = new System.Drawing.Point(381, 302);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(114, 23);
             this.button1.TabIndex = 4;
             this.button1.Text = "Удалить запись";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click_1);
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(491, 331);
+            this.button5.Location = new System.Drawing.Point(381, 331);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(114, 23);
             this.button5.TabIndex = 5;
@@ -100,7 +106,7 @@
             // 
             // button6
             // 
-            this.button6.Location = new System.Drawing.Point(491, 360);
+            this.button6.Location = new System.Drawing.Point(381, 360);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(114, 23);
             this.button6.TabIndex = 6;
@@ -155,11 +161,32 @@
             this.label3.TabIndex = 11;
             this.label3.Text = "Регистрационный номер";
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(173, 292);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(35, 13);
+            this.label4.TabIndex = 13;
+            this.label4.Text = "label4";
+            // 
+            // button7
+            // 
+            this.button7.Location = new System.Drawing.Point(215, 281);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(75, 23);
+            this.button7.TabIndex = 14;
+            this.button7.Text = "getID";
+            this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.button7_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(530, 450);
+            this.Controls.Add(this.button7);
+            this.Controls.Add(this.label4);
             this.Controls.Add(this.textBox3);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.textBox2);
@@ -197,6 +224,8 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Button button7;
     }
 }
 

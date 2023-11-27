@@ -108,7 +108,7 @@ namespace LR5
         {
             try
             {
-                string connString = "Host=localhost;Port=5432;Username=postgres;Password=s0104;Database=inventory";
+                string connString = "Host=localhost;Port=5432;Username=postgres;Password=0104;Database=inventory";
                 NpgsqlConnection conn = new NpgsqlConnection(connString);
                 conn.Open();
                 string strSQL = string.Format("UPDATE cars SET marka='{0}', color='{1}', reg_nom = '{2}' where car_id  ={ 3}", textBox1.Text, textBox2.Text, textBox3.Text, id);
@@ -126,6 +126,7 @@ namespace LR5
                 MessageBox.Show("Ошибка записи в БД");
             }
         }
+
         private void button1_Click(object sender, EventArgs e) // Удаление записи
         {
             int n = 0;
@@ -172,5 +173,80 @@ namespace LR5
             textBox3.Text = "";
         }
 
+        private void button4_Click_1(object sender, EventArgs e) // Сохранение записи
+        {
+            try
+            {
+                
+                string connString = "Host=localhost;Port=5432;Username=postgres;Password=0104;Database=inventory";
+                NpgsqlConnection conn = new NpgsqlConnection(connString);
+                conn.Open();
+                string strSQL = string.Format("UPDATE cars SET marka='{0}', color='{1}', reg_nom = '{2}' where car_id ={3}", textBox1.Text, textBox2.Text, textBox3.Text, id);
+                NpgsqlCommand command = new NpgsqlCommand(strSQL, conn);
+                command.ExecuteNonQuery();
+                conn.Close(); // закрытие подключения
+                UpdateGrid(); // обновление таблицы
+                textBox1.Text = ""; // очистка текстовых полей
+                textBox2.Text = "";
+                textBox3.Text = "";
+                id = 0;
+            }
+            catch (NpgsqlException) // обработка исключения записи в базу данных
+            {
+                MessageBox.Show("Ошибка записи в БД");
+            }
+        }
+
+        private void button3_Click_1(object sender, EventArgs e)
+        {
+            string connString = "Host=localhost;Port=5432;Username=postgres;Password=0104;Database=inventory";
+            NpgsqlConnection conn = new NpgsqlConnection(connString);
+            conn.Open();
+            string sql = "INSERT INTO cars (marka, color, reg_nom) VALUES(@Mark, @Color, @Peg_nom)";
+            // У этой команды будут внутренние параметры.
+            using (NpgsqlCommand cmd = new NpgsqlCommand(sql, conn))
+            {
+                // Заполнение коллекции параметров.
+                NpgsqlParameter param = new NpgsqlParameter();
+                cmd.Parameters.Add("@Mark", NpgsqlTypes.NpgsqlDbType.Varchar).Value = this.textBox1.Text;
+                cmd.Parameters.Add("@Color", NpgsqlTypes.NpgsqlDbType.Varchar).Value = this.textBox2.Text;
+                cmd.Parameters.Add("@Peg_nom", NpgsqlTypes.NpgsqlDbType.Varchar).Value = this.textBox3.Text;
+                cmd.ExecuteNonQuery();
+            }
+            conn.Close();
+            UpdateGrid();
+            textBox1.Text = "";
+            textBox2.Text = "";
+            textBox3.Text = "";
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+
+            int n = 0;
+            try
+            {
+                string connString = "Host=localhost;Port=5432;Username=postgres;Password=0104;Database=inventory";
+                NpgsqlConnection conn = new NpgsqlConnection(connString);
+                conn.Open();
+                string strSQL = string.Format("DELETE FROM cars WHERE car_id={0}", id);
+                NpgsqlCommand myCommand1 = new NpgsqlCommand(strSQL, conn); // Получение результата
+                n = myCommand1.ExecuteNonQuery();
+                conn.Close();
+                UpdateGrid(); // обновление таблицы
+                textBox1.Text = "";
+                textBox2.Text = "";
+                textBox3.Text = ""; // очистка текстовых полей
+            }
+            catch (NpgsqlException ex)
+            {
+                MessageBox.Show("Ошибка удаления");
+            }
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            label4.Text = Convert.ToString(id);
+        }
     }
 }
