@@ -248,5 +248,30 @@ namespace LR5
         {
             label4.Text = Convert.ToString(id);
         }
+
+        private void button5_Click_1(object sender, EventArgs e)
+        {
+            
+                string strSQL = "";
+                if (textBox1.Text != "") strSQL = string.Format("SELECT * FROM cars WHERE marka = '{0}'",
+               textBox1.Text);
+                else if (textBox2.Text != "") strSQL = string.Format("SELECT * FROM cars WHERE color = '{0}'",
+               textBox2.Text);
+                else if (textBox3.Text != "") strSQL = string.Format("SELECT * FROM cars WHERE reg_nom = '{0}'",
+               textBox3.Text);
+                string conn = "Host=localhost;Port=5432;Username=postgres;Password=0104;Database=inventory";
+                // Создание объекта NpgsqlDataAdapter
+                // задаем строку запроса и строку подключения
+                NpgsqlDataAdapter da = new NpgsqlDataAdapter(strSQL, conn);
+                // Создание объекта DataSet
+                DataSet ds = new DataSet();
+                da.Fill(ds, "cars");
+                // Отображение таблицы через таблицу DataGridView
+                dataGridView1.DataSource = ds.Tables["cars"].DefaultView;
+                textBox1.Text = ""; // очистка текстовых полей
+                textBox2.Text = "";
+                textBox3.Text = "";
+            
+        }
     }
 }
