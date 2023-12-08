@@ -20,7 +20,7 @@ namespace LR5
             
         }
         int id = 0;
-
+        int id1 = 0;
         private void Form1_Load(object sender, EventArgs e)
         {
             string connString = "Host=localhost;Port=5432;Username=postgres;Password=0104;Database=inventory";
@@ -152,7 +152,7 @@ namespace LR5
             textBox3.Text = "";
         }
 
-        private void button1_Click_1(object sender, EventArgs e)
+        private void button1_Click_1(object sender, EventArgs e)//удаление
         {
 
             int n = 0;
@@ -212,18 +212,18 @@ namespace LR5
 
 
 
-        int id1 = 0;
+        
         private void dataGridView2_SelectionChahged(object sender, DataGridViewCellEventArgs e)
         //Вывод выделенной записи в поля
         {
                 // определение номера выделенной строки
-                DataGridViewSelectedRowCollection t = dataGridView2.SelectedRows;
-                if (t.Count > 0)
+                DataGridViewSelectedRowCollection t1 = dataGridView2.SelectedRows;
+                if (t1.Count > 0)
                 {
-                    DataGridViewRow row = t[0];
-                    id1 = Convert.ToInt32(row.Cells[0].Value);
-                    textBox_CARID.Text = Convert.ToString(row.Cells[1].Value).Trim();
-                    textBoxNAME.Text = Convert.ToString(row.Cells[2].Value).Trim();
+                    DataGridViewRow row1 = t1[0];
+                    id1 = Convert.ToInt32(row1.Cells[0].Value);
+                    textBox_CARID.Text = Convert.ToString(row1.Cells[1].Value).Trim();
+                    textBoxNAME.Text = Convert.ToString(row1.Cells[2].Value).Trim();
              
             }
         }
@@ -237,7 +237,7 @@ namespace LR5
             NpgsqlDataAdapter da = new NpgsqlDataAdapter(strSQL2, conn1);
             // Создание объекта DataSet 
             DataSet ds = new DataSet();
-            da.Fill(ds, "owners"); //заполнение ds данными таблицы cars
+            da.Fill(ds, "owners"); //заполнение ds данными таблицы owners
                                  // Отображение таблицы через таблицу DataGridView
             dataGridView2.DataSource = ds.Tables["owners"].DefaultView;
         }
@@ -264,7 +264,7 @@ namespace LR5
             {
                 // Заполнение коллекции параметров.
                 NpgsqlParameter param = new NpgsqlParameter();
-                cmd.Parameters.Add("@car_id", NpgsqlTypes.NpgsqlDbType.Varchar).Value = Convert.ToInt32(this.textBox_CARID.Text);
+                cmd.Parameters.Add("@car_id", NpgsqlTypes.NpgsqlDbType.Integer).Value = Convert.ToInt32(this.textBox_CARID.Text);
                 cmd.Parameters.Add("@name", NpgsqlTypes.NpgsqlDbType.Varchar).Value = this.textBoxNAME.Text;
                 cmd.ExecuteNonQuery();
             }
@@ -288,7 +288,7 @@ namespace LR5
                     string connString = "Host=localhost;Port=5432;Username=postgres;Password=0104;Database=inventory";
                     NpgsqlConnection conn = new NpgsqlConnection(connString);
                     conn.Open();
-                    string strSQL = string.Format("UPDATE owners SET marka='{0}', color='{1}', reg_nom = '{2}' where owner_id ={2}", textBox1.Text, textBox2.Text, id);
+                    string strSQL = string.Format("UPDATE owners SET car_id='{0}', name = '{1}' where owner_id ={2}", textBox_CARID.Text, textBoxNAME.Text, id1);
                     NpgsqlCommand command = new NpgsqlCommand(strSQL, conn);
                     command.ExecuteNonQuery();
                     conn.Close(); // закрытие подключения
@@ -307,11 +307,45 @@ namespace LR5
         private void button12_Click(object sender, EventArgs e)//удаление
         {
 
+            int n = 0;
+            try
+            {
+                string connString = "Host=localhost;Port=5432;Username=postgres;Password=0104;Database=inventory";
+                NpgsqlConnection conn = new NpgsqlConnection(connString);
+                conn.Open();
+                string strSQL = string.Format("DELETE FROM owners WHERE owner_id={0}", id1);
+                NpgsqlCommand myCommand1 = new NpgsqlCommand(strSQL, conn); // Получение результата
+                n = myCommand1.ExecuteNonQuery();
+                conn.Close();
+                UpdateGrid(); // обновление таблицы
+                textBox_CARID.Text = "";
+                textBoxNAME.Text = "";
+            }
+            catch (NpgsqlException ex)
+            {
+                MessageBox.Show("Ошибка удаления");
+            }
         }
 
         private void button13_Click(object sender, EventArgs e)//поиск
         {
 
+            string strSQL = "";
+            if (textBox_CARID.Text != "") strSQL = string.Format("SELECT * FROM owners WHERE car_id = '{0}'",
+           textBox_CARID.Text);
+            else if (textBoxNAME.Text != "") strSQL = string.Format("SELECT * FROM owners WHERE name = '{0}'",
+           textBoxNAME.Text);
+            string conn1 = "Host=localhost;Port=5432;Username=postgres;Password=0104;Database=inventory";
+            // Создание объекта NpgsqlDataAdapter
+            // задаем строку запроса и строку подключения
+            NpgsqlDataAdapter da = new NpgsqlDataAdapter(strSQL, conn1);
+            // Создание объекта DataSet
+            DataSet ds = new DataSet();
+            da.Fill(ds, "owners");
+            // Отображение таблицы через таблицу DataGridView
+            dataGridView2.DataSource = ds.Tables["owners"].DefaultView;
+            textBox_CARID.Text = "";
+            textBoxNAME.Text = "";
         }
     }
 }
