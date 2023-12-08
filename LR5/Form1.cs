@@ -292,7 +292,7 @@ namespace LR5
                     NpgsqlCommand command = new NpgsqlCommand(strSQL, conn);
                     command.ExecuteNonQuery();
                     conn.Close(); // закрытие подключения
-                    UpdateGrid(); // обновление таблицы
+                    UpdateGrid1(); // обновление таблицы
                     textBox_CARID.Text = "";
                     textBoxNAME.Text = "";
                     id1 = 0;
@@ -317,7 +317,7 @@ namespace LR5
                 NpgsqlCommand myCommand1 = new NpgsqlCommand(strSQL, conn); // Получение результата
                 n = myCommand1.ExecuteNonQuery();
                 conn.Close();
-                UpdateGrid(); // обновление таблицы
+                UpdateGrid1(); // обновление таблицы
                 textBox_CARID.Text = "";
                 textBoxNAME.Text = "";
             }
