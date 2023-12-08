@@ -347,5 +347,30 @@ namespace LR5
             textBox_CARID.Text = "";
             textBoxNAME.Text = "";
         }
+
+        private void button15_Click(object sender, EventArgs e)
+        {
+            string connString = "Host=localhost;Port=5432;Username=postgres;Password=0104;Database=inventory";
+            NpgsqlConnection conn = new NpgsqlConnection(connString);
+            conn.Open();
+            // Создание объекта команды на языке SQL.
+            string strSQL = "SELECT cars.reg_nom, cars.marka, cars.color, owners.name FROM cars, owners WHERE cars.car_id = owners.car_id;";
+            // Создание объекта NpgsqlDataAdapter
+            // параметры: строка запроса и строка подключения
+            NpgsqlDataAdapter da = new NpgsqlDataAdapter(strSQL, connString);
+            // Создание объекта DataSet
+            DataSet ds = new DataSet();
+            // Задаем соответствие имен столбцов базы данны (таблица cars) и названий столбцов в таблице.
+            DataTableMapping custMap = da.TableMappings.Add("info", "Информация");
+            custMap.ColumnMappings.Add("reg_nom", "ID");
+            custMap.ColumnMappings.Add("marka", "Марка");
+            custMap.ColumnMappings.Add("color", "Цвет");
+            custMap.ColumnMappings.Add("name", "Владелец");
+            da.Fill(ds, "info");
+            // Отображение таблицы через таблицу DataGridView
+            //выводит всю таблицу с указанными заголовками
+            dataGridView3.DataSource = ds.Tables["Информация"].DefaultView;
+            conn.Close(); //закрытие соединения
+        }
     }
 }
